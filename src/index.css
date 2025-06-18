@@ -1,0 +1,101 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Modern color scheme with dark/light mode support */
+  color-scheme: light dark;
+  
+  /* Light theme colors */
+  --color-light-text: #1a1a1a;
+  --color-light-bg: #f8fafc;
+  --color-light-primary: #4f46e5;
+  --color-light-secondary: #e0e7ff;
+  
+  /* Dark theme colors */
+  --color-dark-text: #f8fafc;
+  --color-dark-bg: #0f172a;
+  --color-dark-primary: #818cf8;
+  --color-dark-secondary: #1e293b;
+}
+
+/* Light mode by default */
+:root {
+  color: var(--color-light-text);
+  background-color: var(--color-light-bg);
+}
+
+/* Dark mode preferences */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--color-dark-text);
+    background-color: var(--color-dark-bg);
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-light-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-dark-bg);
+  }
+}
+
+/* Smooth transitions for theme changes */
+body, :root {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Modern link styles */
+a {
+  font-weight: 500;
+  color: var(--color-light-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: color-mix(in srgb, var(--color-light-primary), black 15%);
+}
+
+/* Dark mode link adjustments */
+@media (prefers-color-scheme: dark) {
+  a {
+    color: var(--color-dark-primary);
+  }
+  a:hover {
+    color: color-mix(in srgb, var(--color-dark-primary), white 15%);
+  }
+}
+
+/* Button styles with modern look */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--color-light-primary);
+  color: white;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+button:hover {
+  background-color: color-mix(in srgb, var(--color-light-primary), black 15%);
+}
+
+/* Dark mode button adjustments */
+@media (prefers-color-scheme: dark) {
+  button {
+    background-color: var(--color-dark-primary);
+    color: var(--color-dark-text);
+  }
+  button:hover {
+    background-color: color-mix(in srgb, var(--color-dark-primary), white 15%);
+  }
+}
