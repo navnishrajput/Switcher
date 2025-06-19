@@ -60,7 +60,20 @@ const toolComponents = {
   'PdfReader': lazy(() => import('../tools/PdfReader')),
   'PdfProtector': lazy(() => import('../tools/PdfProtector')),
   'PdfUnlocker': lazy(() => import('../tools/PdfUnlocker')),
-  'PdfOcr': lazy(() => import('../tools/PdfOcr'))
+  'PdfOcr': lazy(() => import('../tools/PdfOcr')),
+  'BackgroundRemover': lazy(() => import('../img-tools/BackgroundRemover')),
+  'BatchProcessor': lazy(() => import('../img-tools/BatchProcessor')),
+  'CollageMaker': lazy(() => import('../img-tools/CollageMaker')),
+  'GifMaker': lazy(() => import('../img-tools/GifMaker')),
+  'ImageCompressor': lazy(() => import('../img-tools/ImageCompressor')),
+  'ImageEditor': lazy(() => import('../img-tools/ImageEditor')),
+  'ImageFormatConverter': lazy(() => import('../img-tools/ImageFormatConverter')),
+  'ImageToPdf': lazy(() => import('../img-tools/ImageToPdf')),
+  'ImgToolsSection': lazy(() => import('../img-tools/ImgToolsSection')),
+  'MemeGenerator': lazy(() => import('../img-tools/MemeGenerator')),
+  'PdfToImage': lazy(() => import('../img-tools/PdfToImage')),
+  'PhotoEnhancer': lazy(() => import('../img-tools/PhotoEnhancer')),
+  'WatermarkTool': lazy(() => import('../img-tools/WatermarkTool'))
 };
 
 export default function ToolModal({ tool, onClose }) {
@@ -89,7 +102,7 @@ export default function ToolModal({ tool, onClose }) {
             </ModalHeader>
             <ModalBody>
               <Suspense fallback={<div>Loading tool...</div>}>
-                {ToolComponent && <ToolComponent />}
+                {ToolComponent && <ToolComponent onClose={onClose} />}
               </Suspense>
             </ModalBody>
           </ModalContent>
