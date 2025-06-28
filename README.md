@@ -34,4 +34,4 @@ switcher/
 └── vite.config.js # Build config
 
 📜 License
-MIT © [Navnish Rajput]
+© [Navnish Rajput]
