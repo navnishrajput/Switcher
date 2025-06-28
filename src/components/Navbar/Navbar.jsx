@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { FaBars, FaTimes, FaUser } from 'react-icons/fa';
+import { FaBars, FaTimes, FaUser, FaChevronDown } from 'react-icons/fa';
 
 const NavContainer = styled(motion.nav)`
   position: fixed;
@@ -68,6 +68,9 @@ const NavLink = styled(motion.a)`
   font-size: 1.1rem;
   padding: 0.5rem 0;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 
   &::after {
     content: '';
@@ -82,6 +85,57 @@ const NavLink = styled(motion.a)`
 
   &:hover::after {
     width: 100%;
+  }
+`;
+
+const DropdownMenu = styled(motion.div)`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: ${({ theme }) => theme.colors.primary.navy};
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  min-width: 200px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+
+  @media (max-width: 1024px) {
+    position: static;
+    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    box-shadow: none;
+    padding: 1rem 0;
+    gap: 1rem;
+  }
+`;
+
+const DropdownItem = styled(NavLink)`
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(168, 249, 255, 0.1);
+  }
+
+  @media (max-width: 1024px) {
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+`;
+
+const NavItem = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    align-items: center;
   }
 `;
 
@@ -125,8 +179,56 @@ const MenuButton = styled(motion.button)`
   }
 `;
 
+const toolCategories = {
+  'PDF Tools': [
+    { name: 'Merge PDF', path: '/pdf-tools/merge' },
+    { name: 'Split PDF', path: '/pdf-tools/split' },
+    { name: 'Compress PDF', path: '/pdf-tools/compress' },
+  ],
+  'Image Tools': [
+    { name: 'Resize Image', path: '/image-tools/resize' },
+    { name: 'Convert Image', path: '/image-tools/convert' },
+    { name: 'Compress Image', path: '/image-tools/compress' },
+  ],
+  'DOC Tools': [
+    { name: 'Word to PDF', path: '/doc-tools/word-to-pdf' },
+    { name: 'PDF to Word', path: '/doc-tools/pdf-to-word' },
+  ],
+  'Other Tools': [
+    { name: 'Text Tools', path: '/other-tools/text' },
+    { name: 'File Converter', path: '/other-tools/converter' },
+  ]
+};
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const dropdownRefs = useRef({});
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      Object.values(dropdownRefs.current).forEach(ref => {
+        if (ref && !ref.contains(event.target)) {
+          setActiveDropdown(null);
+        }
+      });
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleDropdown = (category) => {
+    setActiveDropdown(activeDropdown === category ? null : category);
+  };
+
+  const closeMobileMenu = () => {
+    setIsOpen(false);
+    setActiveDropdown(null);
+  };
 
   return (
     <NavContainer
@@ -148,42 +250,47 @@ export default function Navbar() {
           href="/"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setIsOpen(false)}
+          onClick={closeMobileMenu}
         >
           Home
         </NavLink>
-        <NavLink
-          href="/pdf-tools"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsOpen(false)}
-        >
-          PDF Tools
-        </NavLink>
-        <NavLink
-          href="/doc-tools"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsOpen(false)}
-        >
-          DOC Tools
-        </NavLink>
-        <NavLink
-          href="/image-tools"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsOpen(false)}
-        >
-          Image Tools
-        </NavLink>
-        <NavLink
-          href="/other-tools"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsOpen(false)}
-        >
-          Other Tools
-        </NavLink>
+
+        {Object.keys(toolCategories).map((category) => (
+          <NavItem 
+            key={category}
+            ref={el => dropdownRefs.current[category] = el}
+            onMouseEnter={() => !isOpen && setActiveDropdown(category)}
+            onMouseLeave={() => !isOpen && setActiveDropdown(null)}
+          >
+            <NavLink
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => isOpen ? toggleDropdown(category) : null}
+            >
+              {category} <FaChevronDown size={12} />
+            </NavLink>
+            
+            <DropdownMenu 
+              isOpen={activeDropdown === category}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {toolCategories[category].map((tool) => (
+                <DropdownItem
+                  key={tool.path}
+                  href={tool.path}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={closeMobileMenu}
+                >
+                  {tool.name}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </NavItem>
+        ))}
       </NavLinks>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>

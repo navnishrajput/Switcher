@@ -50,7 +50,6 @@ const ModalBody = styled.div`
   padding: 2rem;
 `;
 
-// Lazy load all tool components
 const toolComponents = {
   'PdfMerger': lazy(() => import('../tools/PdfMerger')),
   'PdfSplitter': lazy(() => import('../tools/PdfSplitter')),
@@ -73,7 +72,19 @@ const toolComponents = {
   'MemeGenerator': lazy(() => import('../img-tools/MemeGenerator')),
   'PdfToImage': lazy(() => import('../img-tools/PdfToImage')),
   'PhotoEnhancer': lazy(() => import('../img-tools/PhotoEnhancer')),
-  'WatermarkTool': lazy(() => import('../img-tools/WatermarkTool'))
+  'WatermarkTool': lazy(() => import('../img-tools/WatermarkTool')),
+  'DocConverter': lazy(() => import('../doc-tools/DocConverter')),
+  'DocMerger': lazy(() => import('../doc-tools/DocMerger')),
+  'DocSplitter': lazy(() => import('../doc-tools/DocSplitter')),
+  'DocEditor': lazy(() => import('../doc-tools/DocEditor')),
+  'DocProtector': lazy(() => import('../doc-tools/DocProtector')),
+  'DocUnlocker': lazy(() => import('../doc-tools/DocUnlocker')),
+  'DocToPdf': lazy(() => import('../doc-tools/DocToPdf')),
+  'PdfToDoc': lazy(() => import('../doc-tools/PdfToDoc')),
+  'DocOcr': lazy(() => import('../doc-tools/DocOcr')),
+  'DocWatermark': lazy(() => import('../doc-tools/DocWatermark')),
+  'DocFormatter': lazy(() => import('../doc-tools/DocFormatter')),
+  'DocConverterAdvanced': lazy(() => import('../doc-tools/DocConverterAdvanced'))
 };
 
 export default function ToolModal({ tool, onClose }) {

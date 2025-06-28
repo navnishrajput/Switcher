@@ -5,6 +5,8 @@ import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import ToolsSection from './components/ToolsSection/ToolsSection';
 import ToolModal from './components/modals/ToolModal';
+import Footer from './components/Footer/Footer';
+import CustomCursor from './components/CustomCursor/CustomCursor';
 import './App.css';
 
 const PdfToolsIntro = styled.section`
@@ -34,6 +36,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <>
+        <CustomCursor />
         <Navbar />
         <Hero />
         <PdfToolsIntro>
@@ -45,6 +48,7 @@ function App() {
         )}
         <div className="app">
         </div>
+        <Footer />
       </>
     </ThemeProvider>
   );

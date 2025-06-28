@@ -7,7 +7,7 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 20px;
 `;
-zzz
+
 const Button = styled.button`
   background-color: #4CAF50;
   color: white;

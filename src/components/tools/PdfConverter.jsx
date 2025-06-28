@@ -226,29 +226,25 @@ export default function PdfConverter() {
   };
 
   const convertPdfToImage = async (pdfData, format) => {
-    // Load the PDF
-    const { PDFDocument } = await import('pdf-lib');
-    const pdfDoc = await PDFDocument.load(pdfData);
+    const pdfjsLib = await import('pdfjs-dist/build/pdf');
+    const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.entry');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
     
-    // Get the first page
-    const page = pdfDoc.getPage(0);
+    const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+    const pdfDocument = await loadingTask.promise;
+    const page = await pdfDocument.getPage(1);
     
-    // Create a canvas to render the PDF page
-    const canvas = document.createElement('canvas');
     const viewport = page.getViewport({ scale: 1.5 });
-    canvas.width = viewport.width;
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
     canvas.height = viewport.height;
+    canvas.width = viewport.width;
     
-    // Render PDF page to canvas
-    const canvasContext = canvas.getContext('2d');
-    const renderContext = {
-      canvasContext,
-      viewport
-    };
+    await page.render({
+      canvasContext: context,
+      viewport: viewport
+    }).promise;
     
-    await page.render(renderContext).promise;
-    
-    // Convert canvas to the requested image format
     return new Promise((resolve) => {
       canvas.toBlob((blob) => {
         resolve(blob);
@@ -257,20 +253,15 @@ export default function PdfConverter() {
   };
 
   const convertPdfToText = async (pdfData) => {
-    // Dynamically import pdfjs-dist
-    const pdfjsLib = await import('pdfjs-dist');
-    const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.min.mjs');
+    const pdfjsLib = await import('pdfjs-dist/build/pdf');
+    const pdfjsWorker = await import('pdfjs-dist/build/pdf.worker.entry');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
     
-    // Set worker path
-    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker.default;
-    
-    // Load the PDF document
     const loadingTask = pdfjsLib.getDocument({ data: pdfData });
     const pdfDocument = await loadingTask.promise;
     
     let fullText = '';
     
-    // Extract text from each page
     for (let i = 1; i <= pdfDocument.numPages; i++) {
       const page = await pdfDocument.getPage(i);
       const textContent = await page.getTextContent();
@@ -307,7 +298,6 @@ export default function PdfConverter() {
           break;
         
         case 'pdf':
-          // Just return the original PDF
           resultBlob = new Blob([arrayBuffer], { type: 'application/pdf' });
           break;
         

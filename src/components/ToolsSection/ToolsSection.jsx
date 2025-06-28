@@ -238,6 +238,105 @@ export default function ToolsSection({ onToolSelect }) {
     }
   ];
 
+  const docTools = [
+    { 
+      id: 'doc-converter', 
+      component: 'DocConverter', 
+      name: 'DOC Converter', 
+      icon: <FiFileText />, 
+      desc: 'Convert DOC files to other formats',
+      color: '#3498db'
+    },
+    { 
+      id: 'doc-merger', 
+      component: 'DocMerger', 
+      name: 'DOC Merger', 
+      icon: <FiPlus />, 
+      desc: 'Merge multiple DOC files into one',
+      color: '#e74c3c'
+    },
+    { 
+      id: 'doc-splitter', 
+      component: 'DocSplitter', 
+      name: 'DOC Splitter', 
+      icon: <FiMinusCircle />, 
+      desc: 'Split DOC files by sections or pages',
+      color: '#2ecc71'
+    },
+    { 
+      id: 'doc-editor', 
+      component: 'DocEditor', 
+      name: 'DOC Editor', 
+      icon: <FiEdit />, 
+      desc: 'Edit DOC file content',
+      color: '#9b59b6'
+    },
+    { 
+      id: 'doc-protector', 
+      component: 'DocProtector', 
+      name: 'DOC Protector', 
+      icon: <FiLock />, 
+      desc: 'Add password protection to DOC files',
+      color: '#34495e'
+    },
+    { 
+      id: 'doc-unlocker', 
+      component: 'DocUnlocker', 
+      name: 'DOC Unlocker', 
+      icon: <FiUnlock />, 
+      desc: 'Remove passwords from DOC files',
+      color: '#e67e22'
+    },
+    {
+      id: 'doc-to-pdf',
+      component: 'DocToPdf',
+      name: 'DOC to PDF',
+      icon: <FiFile />,
+      desc: 'Convert DOC files to PDF format',
+      color: '#2980b9'
+    },
+    {
+      id: 'pdf-to-doc',
+      component: 'PdfToDoc',
+      name: 'PDF to DOC',
+      icon: <FiFileText />,
+      desc: 'Convert PDF files to DOC format',
+      color: '#8e44ad'
+    },
+    {
+      id: 'doc-ocr',
+      component: 'DocOcr',
+      name: 'DOC OCR',
+      icon: <FiFilter />,
+      desc: 'Extract text from scanned DOC files',
+      color: '#16a085'
+    },
+    {
+      id: 'doc-watermark',
+      component: 'DocWatermark',
+      name: 'DOC Watermark',
+      icon: <FiRotateCw />,
+      desc: 'Add watermark to DOC files',
+      color: '#d35400'
+    },
+    {
+      id: 'doc-formatter',
+      component: 'DocFormatter',
+      name: 'DOC Formatter',
+      icon: <FiFilter />,
+      desc: 'Format DOC files for consistency',
+      color: '#2980b9'
+    },
+    {
+      id: 'doc-converter-advanced',
+      component: 'DocConverterAdvanced',
+      name: 'Advanced DOC Converter',
+      icon: <FiFileText />,
+      desc: 'Advanced conversion options for DOC files',
+      color: '#8e44ad'
+    }
+  ];
+
   return (
     <ToolsContainer>
       <Section>
@@ -261,6 +360,21 @@ export default function ToolsSection({ onToolSelect }) {
         </SectionTitle>
         <ToolsGrid>
           {imageTools.map(tool => (
+            <ToolCard key={tool.id} onClick={() => onToolSelect(tool)}>
+              <ToolIcon color={tool.color}>{tool.icon}</ToolIcon>
+              <ToolName>{tool.name}</ToolName>
+              <ToolDescription>{tool.desc}</ToolDescription>
+            </ToolCard>
+          ))}
+        </ToolsGrid>
+      </Section>
+
+      <Section>
+        <SectionTitle>
+          <FiFile /> DOC Tools
+        </SectionTitle>
+        <ToolsGrid>
+          {docTools.map(tool => (
             <ToolCard key={tool.id} onClick={() => onToolSelect(tool)}>
               <ToolIcon color={tool.color}>{tool.icon}</ToolIcon>
               <ToolName>{tool.name}</ToolName>
