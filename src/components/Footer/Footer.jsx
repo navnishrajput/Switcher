@@ -244,7 +244,7 @@ const Footer = () => {
       <Copyright>
         © {new Date().getFullYear()} MultiTool. All rights reserved.
         <div style={{ marginTop: '0.5rem' }}>
-          Made with ❤️ by the MultiTool team
+          Made  by Navnish Rajput
         </div>
       </Copyright>
     </FooterContainer>
