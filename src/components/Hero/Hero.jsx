@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import styled, { keyframes } from 'styled-components';
 import { FaArrowRight, FaFilePdf, FaFileImage, FaFileWord } from 'react-icons/fa';
 
-// Floating file icons animation
 const floatAnimation = keyframes`
   0% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(5deg); }
