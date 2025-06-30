@@ -23,7 +23,7 @@ const glow = keyframes`
   100% { text-shadow: 0 0 5px rgba(100, 255, 218, 0.5); }
 `;
 
-// Styled Components
+
 const FooterContainer = styled.footer`
   background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
   color: #ccd6f6;
